@@ -24,6 +24,8 @@ export default class SearchResult extends Component {
         return (
             <View style={styles.mainContainer}>
                 <Header
+                    backBtn={true}
+                    navigation={this.props.navigation}
                     title="Найдено"
                 />
                 <View style={styles.container}>

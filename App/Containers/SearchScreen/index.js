@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, Button, ActivityIndicator, Slider} from 'react-native';
+import {View, Text, Button, ActivityIndicator, Slider, TextInput} from 'react-native';
 import Header from './../../Components/Header'
 
 import axios from 'axios';
@@ -12,6 +12,8 @@ export default class SearchScreen extends Component {
         this.state = {
             loaded: false,
             source: null,
+
+            text: ''
         };
         this.load = this.load.bind(this);
 
@@ -39,6 +41,10 @@ export default class SearchScreen extends Component {
 
     }
 
+    inputHandler = (text) => {
+
+    }
+
     render() {
         return (
             <View style={styles.mainContainer}>
@@ -46,9 +52,37 @@ export default class SearchScreen extends Component {
                     title='Поиск'
                 />
                 <View style={styles.container}>
-                    <View style={styles.sliderBlock}>
-                        <Slider />
+
+
+                    <View style={styles.row}>
+                        <View style={styles.left}>
+                            <Text>Text</Text>
+                        </View>
+                        <View style={styles.right}>
+                            <TextInput
+//                                onBlur={() => this.validateForm('phoneValid')}
+                                placeholder={'enter'}
+//                                placeholderTextColor={Colors.textLightGrey}
+                                underlineColorAndroid={'transparent'}
+//                                keyboardType={'phone-pad'}
+                                style={styles.textInputStyle}
+                                //onFocus={() => this.onFocus('phone')}
+//                                maxLength={18}
+                                onChangeText={(text) => this.inputHandler(text)}
+                                value={this.state.input}/>
+
+                        </View>
                     </View>
+
+                    <View style={styles.row}>
+                        <View style={styles.left}>
+                            <Text>number of column</Text>
+                        </View>
+                        <View style={styles.right}>
+                            <Slider />
+                        </View>
+                    </View>
+
                     <Button
                         onPress={() => this.props.navigation.navigate('ResultScreen')}
                         title="Search"
