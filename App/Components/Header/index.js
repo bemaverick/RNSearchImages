@@ -27,12 +27,12 @@ export default class Header extends Component {
                             hitSlop={{
                                 top: 5,
                                 left: 10,
-                                right: 10,
+                                right: 15,
                                 bottom: 5
                             }}
                             onPress={() => this.props.navigation.goBack()}
                             style={styles.backWrap}>
-                            <Text style={styles.backText}>Назад</Text>
+                            <Text style={styles.backText}>&#8249;</Text>
                         </TouchableOpacity>
                         :
                         null
@@ -79,7 +79,7 @@ const styles = {
 
     },
     backText: {
-        fontSize: 12,
+        fontSize: 35,
         textAlign: 'center'
     }
 }

@@ -2,8 +2,8 @@ import React, {Component} from 'react';
 import {View, Text, Button, ActivityIndicator, Slider, TextInput} from 'react-native';
 import Header from './../../Components/Header'
 
-import axios from 'axios';
 
+import { HitSlope, Colors } from './../../Themes'
 import styles from './styles';
 
 export default class SearchScreen extends Component {
@@ -13,29 +13,18 @@ export default class SearchScreen extends Component {
             loaded: false,
             source: null,
 
-            text: ''
+            text: '',
+            sliderVal: 2
         };
-        this.load = this.load.bind(this);
+
 
     }
 
     componentDidMount() {
 
-        this.load();
     }
 
-    load() {
-        let self = this;
-        axios.get('https://dog.ceo/api/breeds/image/random')
-        .then(function(response) {
-            self.setState({
-                loaded: true,
-                source: response.data.message
-            });
-        }).catch(function(error) {
-            console.log(error);
-        });
-    }
+
 
     componentWillMount() {
 
@@ -43,6 +32,10 @@ export default class SearchScreen extends Component {
 
     inputHandler = (text) => {
 
+    };
+
+    sliderHandler = (val) => {
+        console.log(val)
     }
 
     render() {
@@ -79,7 +72,15 @@ export default class SearchScreen extends Component {
                             <Text>number of column</Text>
                         </View>
                         <View style={styles.right}>
-                            <Slider />
+                            <Slider
+                                minimumTrackTintColor={Colors.teal500}
+                                maximumTrackTintColor={Colors.teal100}
+                                maximumValue={5}
+                                minimumValue={1}
+                                value={this.state.sliderVal}
+                                step={1}
+                                onValueChange={(val) => this.sliderHandler(val)}
+                            />
                         </View>
                     </View>
 

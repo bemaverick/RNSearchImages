@@ -1,5 +1,5 @@
-import {Platform} from 'react-native';
-
+import {Platform, Dimensions} from 'react-native';
+const { width, height } = Dimensions.get('window')
 export default {
     mainContainer: {
         backgroundColor: 'white',
@@ -7,8 +7,52 @@ export default {
         flex: 1,
     },
     container: {
-        padding: 20,
+//        padding: 20,
         flex: 1,
+    },
+    p20: {
+        padding: 20
+    },
+    image: {
+        width: 100,
+        height: 100,
+        resizeMode: 'cover'
+    },
+    column1: {
+        width: width,
+        height: width,
+        backgroundColor: 'white',
+        borderColor: 'black',
+        borderWidth: 1,
+
+    },
+    column2: {
+        width: width / 2,
+        height: width / 2,
+        backgroundColor: 'white',
+        borderWidth: 1,
+        borderColor: 'black'
+    },
+    column3: {
+        width: width / 3,
+        height: width / 3,
+        backgroundColor: 'white',
+        borderWidth: 1,
+        borderColor: 'black'
+    },
+    column4: {
+        width: width / 4,
+        height: width / 4,
+        backgroundColor: 'white',
+        borderWidth: 1,
+        borderColor: 'black'
+    },
+    column5: {
+        width: width / 5,
+        height: width / 5,
+        backgroundColor: 'white',
+        borderWidth: 1,
+        borderColor: 'black'
     }
 
 };
