@@ -31,11 +31,11 @@ export default class SearchScreen extends Component {
     }
 
     inputHandler = (text) => {
-
+        this.setState({text})
     };
 
-    sliderHandler = (val) => {
-        console.log(val)
+    sliderHandler = (sliderVal) => {
+        this.setState({sliderVal})
     }
 
     render() {
@@ -85,7 +85,7 @@ export default class SearchScreen extends Component {
                     </View>
 
                     <Button
-                        onPress={() => this.props.navigation.navigate('ResultScreen')}
+                        onPress={() => this.props.navigation.navigate('ResultScreen', {text: this.state.text, column: this.state.sliderVal})}
                         title="Search"
                         color="#841584"
 

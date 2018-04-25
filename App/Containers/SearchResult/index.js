@@ -14,7 +14,7 @@ export default class SearchResult extends Component {
         this.state = {
             loaded: false,
             imagesArr: null,
-            columnCount: 5
+            columnCount: this.props.navigation.state.params.column
         };
 
         this.load = this.load.bind(this);
@@ -22,6 +22,9 @@ export default class SearchResult extends Component {
     }
 
     componentDidMount() {
+        let navParams = this.props.navigation.state.params;
+
+        console.log(navParams)
         this.load();
     }
 
@@ -30,13 +33,15 @@ export default class SearchResult extends Component {
     }
 
     load() {
-        let self = this;
-        axios.get('https://picsum.photos/list')
-            .then(function(response) {
+        let searchQuery = this.props.navigation.state.params.text;
 
+        let self = this;
+        axios.get(`https://api.gettyimages.com/v3/search/images/creative?phrase=${searchQuery}`, { headers: { "Api-Key": "cj3fm2t5jkanh6g79zv88ry6" } })
+            .then(function(response) {
+            console.log(response);
                 self.setState({
                     loaded: true,
-                    imagesArr: response.data
+                    imagesArr: response.data.images
                 });
             }).catch(function(error) {
                 console.log(error);
@@ -52,7 +57,7 @@ export default class SearchResult extends Component {
                     style={styles.flatList}
                     data={this.state.imagesArr}
                     numColumns={this.state.columnCount}
-                    //                ListEmptyComponent={this.renderEmptyComponents('Нет товаров со скидками')}
+                    ListEmptyComponent={() => <Text>нет изображений</Text>}
                     //                onEndReached={(e) => this.loadMoreDiscounts(e)}
                     //                onEndReachedThreshold={0.3}
                     //                onRefresh={() => this.refreshDiscounts()}
@@ -65,7 +70,9 @@ export default class SearchResult extends Component {
         } else if (!this.state.loaded) {
             return <View style={styles.p20}><ActivityIndicator color={Colors.teal500} /></View>
         } else {
-            return <Text>нет изображений</Text>
+
+            console.log(нет)
+            return
         }
 
 
@@ -73,12 +80,14 @@ export default class SearchResult extends Component {
 
     renderItem(item) {
 
-        console.log(this.state.columnCount)
+
         let column = `column${this.state.columnCount}`
         return (
-            <View style={styles[column]}>
-                <Text>{item.item.author}</Text>
-            </View>
+            <Image
+                source={{uri: item.item.display_sizes[0].uri}}
+                style={styles[column]}>
+
+            </Image>
         )
     }
 
