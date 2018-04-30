@@ -1,5 +1,5 @@
 import {Platform, Dimensions} from 'react-native';
-const { width, height } = Dimensions.get('window')
+const { width, height } = Dimensions.get('window');
 export default {
     mainContainer: {
         backgroundColor: 'white',
@@ -11,7 +11,10 @@ export default {
         flex: 1,
     },
     p20: {
-        padding: 20
+        padding: 20,
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     image: {
         width: 100,
@@ -53,6 +56,16 @@ export default {
         backgroundColor: 'white',
         borderWidth: 1,
         borderColor: 'black'
+    },
+    modalContainer: {
+        flex: 1,
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    fullScreen: {
+        width,
+        height
     }
 
 };

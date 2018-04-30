@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
-import {View, Text, FlatList, ActivityIndicator, Image} from 'react-native';
+import {View, Text, FlatList, ActivityIndicator, Image, Modal, TouchableOpacity, Platform} from 'react-native';
 
 import Header from './../../Components/Header'
+
+import PhotoView from 'react-native-photo-view';
 
 import {Colors} from './../../Themes'
 import styles from './styles';
@@ -12,9 +14,11 @@ export default class SearchResult extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            loaded: false,
+            modalVisible: false,
+            finishLoading: false,
             imagesArr: null,
-            columnCount: this.props.navigation.state.params.column
+            columnCount: this.props.navigation.state.params.column,
+            activeItemIndex: 0
         };
 
         this.load = this.load.bind(this);
@@ -24,7 +28,6 @@ export default class SearchResult extends Component {
     componentDidMount() {
         let navParams = this.props.navigation.state.params;
 
-        console.log(navParams)
         this.load();
     }
 
@@ -36,12 +39,12 @@ export default class SearchResult extends Component {
         let searchQuery = this.props.navigation.state.params.text;
 
         let self = this;
-        axios.get(`https://api.gettyimages.com/v3/search/images/creative?phrase=${searchQuery}`, { headers: { "Api-Key": "cj3fm2t5jkanh6g79zv88ry6" } })
+        axios.get(`https://api.cognitive.microsoft.com/bing/v7.0/images/search?q=${searchQuery}`,
+            { headers: { "Ocp-Apim-Subscription-Key": "939e279c6a0d45c590e03269d19349a4" } })
             .then(function(response) {
-            console.log(response);
                 self.setState({
-                    loaded: true,
-                    imagesArr: response.data.images
+                    finishLoading: true,
+                    imagesArr: response.data.value
                 });
             }).catch(function(error) {
                 console.log(error);
@@ -53,7 +56,7 @@ export default class SearchResult extends Component {
         if (this.state.imagesArr) {
             return (
                 <FlatList
-                    keyExtractor={(item, i) => item.id.toString()}
+                    keyExtractor={(item, i) => i.toString()}
                     style={styles.flatList}
                     data={this.state.imagesArr}
                     numColumns={this.state.columnCount}
@@ -63,33 +66,41 @@ export default class SearchResult extends Component {
                     //                onRefresh={() => this.refreshDiscounts()}
                     //                refreshing={this.state.discountRefreshing}
                     //  ListFooterComponent={this.renderScrollActivityIndicator(this.state.discountScrollLoading)}
-                    renderItem={this.renderItem}
+                    renderItem={({item, index}) => this.renderItem(item, index)}
 
                 />
             )
-        } else if (!this.state.loaded) {
+        } else if (!this.state.finishLoading) {
             return <View style={styles.p20}><ActivityIndicator color={Colors.teal500} /></View>
-        } else {
-
-            console.log(нет)
-            return
         }
-
 
     }
 
-    renderItem(item) {
-
+    renderItem(item, i) {
+        console.log(item)
 
         let column = `column${this.state.columnCount}`
         return (
-            <Image
-                source={{uri: item.item.display_sizes[0].uri}}
-                style={styles[column]}>
+            <TouchableOpacity
+                activeOpacity={0.92}
+                onPress={() => this.showPhoto(i)}
+                >
+                <Image
+                    source={{uri: item.thumbnailUrl}}
+                    style={styles[column]}>
+                </Image>
+            </TouchableOpacity>
 
-            </Image>
         )
     }
+    showPhoto = (i) => {
+       this.displayModal(true);
+       this.setState({activeItemIndex: i})
+    };
+
+    displayModal = (val) => {
+        this.setState({modalVisible: val})
+    };
 
     render() {
         return (
@@ -102,6 +113,31 @@ export default class SearchResult extends Component {
                 <View style={styles.container}>
                     {this.renderImages()}
                 </View>
+
+                {
+                    this.state.finishLoading ?
+                        <Modal
+                            transparent={true}
+                            hardwareAccelerated={true}
+                            animationType={'fade'}
+                            onRequestClose={() => this.displayModal(false)}
+                            visible={this.state.modalVisible}>
+                            <View style={styles.modalContainer}>
+                                <PhotoView
+                                    onViewTap={() => this.displayModal(false)}
+                                    source={{uri: this.state.imagesArr[this.state.activeItemIndex].thumbnailUrl}}
+                                    minimumZoomScale={1}
+                                    maximumZoomScale={4}
+                                    androidScaleType="fitCenter"
+                                    resizeMode={Platform.OS === "android" ? "" : "contain"}
+                                    onLoadEnd={() => null}
+                                    style={styles.fullScreen}
+                                />
+                            </View>
+                        </Modal>
+                        :
+                        null
+                }
             </View>
         );
     }
