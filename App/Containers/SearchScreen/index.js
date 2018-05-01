@@ -10,9 +10,7 @@ export default class SearchScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            loaded: false,
-            source: null,
-
+            inputValid: true,
             text: '',
             sliderVal: 2
         };
@@ -31,21 +29,32 @@ export default class SearchScreen extends Component {
     }
 
     inputHandler = (text) => {
+        text.length < 3 ? this.setState({inputValid: false}) : this.setState({inputValid: true});
         this.setState({text})
     };
 
     sliderHandler = (sliderVal) => {
         this.setState({sliderVal})
-    }
+    };
+
+    searchImages = () => {
+        if (this.state.text.length > 2) {
+            this.props.navigation.navigate('ResultScreen', {text: this.state.text, column: this.state.sliderVal})
+        } else {
+            this.setState({inputValid: false});
+        }
+
+    };
 
     render() {
+        let {inputValid} = this.state;
+        let errorBlock = <View style={styles.errorBlock}><Text style={styles.errorText}>more then 2 character is required</Text></View>
         return (
             <View style={styles.mainContainer}>
                 <Header
                     title='Поиск'
                 />
                 <View style={styles.container}>
-
 
                     <View style={styles.row}>
                         <View style={styles.left}>
@@ -54,7 +63,7 @@ export default class SearchScreen extends Component {
                         <View style={styles.right}>
                             <TextInput
 //                                onBlur={() => this.validateForm('phoneValid')}
-                                placeholder={'enter'}
+                                placeholder={'enter search query'}
 //                                placeholderTextColor={Colors.textLightGrey}
                                 underlineColorAndroid={'transparent'}
 //                                keyboardType={'phone-pad'}
@@ -63,13 +72,17 @@ export default class SearchScreen extends Component {
 //                                maxLength={18}
                                 onChangeText={(text) => this.inputHandler(text)}
                                 value={this.state.input}/>
+                            {
+                                inputValid ? null : errorBlock
+                            }
+
 
                         </View>
                     </View>
 
                     <View style={styles.row}>
                         <View style={styles.left}>
-                            <Text>number of column</Text>
+                            <Text>{`number of column: ${this.state.sliderVal}`}</Text>
                         </View>
                         <View style={styles.right}>
                             <Slider
@@ -85,10 +98,9 @@ export default class SearchScreen extends Component {
                     </View>
 
                     <Button
-                        onPress={() => this.props.navigation.navigate('ResultScreen', {text: this.state.text, column: this.state.sliderVal})}
+                        onPress={() => this.searchImages()}
                         title="Search"
-                        color="#841584"
-
+                        color={Colors.teal500}
                     />
 
                 </View>

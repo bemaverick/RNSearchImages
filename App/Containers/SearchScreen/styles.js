@@ -30,14 +30,23 @@ export default {
 
     },
     textInputStyle: {
-//        fontFamily: Fonts.type.ubuntuRegular,
+
         fontSize: 13,
 //        color: Colors.textBlackBold,
         height: 50,
-        paddingHorizontal:20,
-//        borderBottomColor: Colors.greyBorder,
-        borderBottomWidth: 0.5
+        paddingRight:20,
+
+
     },
+    errorText: {
+        fontSize: 9,
+        color: 'red'
+    },
+    errorBlock: {
+        position: 'absolute',
+        left: 0,
+        bottom: 0
+    }
 
 
 
