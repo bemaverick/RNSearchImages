@@ -10,8 +10,7 @@ export default class SearchScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            loaded: false,
-            source: null,
+            inputValid: true,
 
             text: '',
             sliderVal: 2
@@ -20,25 +19,33 @@ export default class SearchScreen extends Component {
 
     }
 
-    componentDidMount() {
+    componentDidMount() {}
 
-    }
-
-
-
-    componentWillMount() {
-
-    }
+    componentWillMount() {}
 
     inputHandler = (text) => {
+        text.length > 2 ? this.setState({inputValid: true}) : this.setState({inputValid: false});
         this.setState({text})
     };
 
     sliderHandler = (sliderVal) => {
         this.setState({sliderVal})
-    }
+    };
+
+    searchImage = () => {
+        if (this.state.text.length > 2) {
+            this.props.navigation.navigate('ResultScreen', {text: this.state.text, column: this.state.sliderVal});
+        } else {
+            this.setState({inputValid: false});
+        }
+
+    };
 
     render() {
+        let {inputValid} = this.state;
+        let errorBlock = <View style={styles.errorBlock}>
+          <Text style={styles.errorText}>more then 2 characters is required</Text>
+        </View>;
         return (
             <View style={styles.mainContainer}>
                 <Header
@@ -46,30 +53,25 @@ export default class SearchScreen extends Component {
                 />
                 <View style={styles.container}>
 
-
                     <View style={styles.row}>
                         <View style={styles.left}>
                             <Text>Text</Text>
                         </View>
                         <View style={styles.right}>
                             <TextInput
-//                                onBlur={() => this.validateForm('phoneValid')}
-                                placeholder={'enter'}
-//                                placeholderTextColor={Colors.textLightGrey}
+                                placeholder={'search query'}
+                                placeholderTextColor={Colors.teal100}
                                 underlineColorAndroid={'transparent'}
-//                                keyboardType={'phone-pad'}
                                 style={styles.textInputStyle}
-                                //onFocus={() => this.onFocus('phone')}
-//                                maxLength={18}
                                 onChangeText={(text) => this.inputHandler(text)}
                                 value={this.state.input}/>
-
+                                 {inputValid ? null : errorBlock}
                         </View>
                     </View>
 
                     <View style={styles.row}>
                         <View style={styles.left}>
-                            <Text>number of column</Text>
+                            <Text>{`number of column: ${this.state.sliderVal}`}</Text>
                         </View>
                         <View style={styles.right}>
                             <Slider
@@ -85,9 +87,9 @@ export default class SearchScreen extends Component {
                     </View>
 
                     <Button
-                        onPress={() => this.props.navigation.navigate('ResultScreen', {text: this.state.text, column: this.state.sliderVal})}
+                        onPress={() => this.searchImage()}
                         title="Search"
-                        color="#841584"
+                        color={Colors.teal500}
 
                     />
 

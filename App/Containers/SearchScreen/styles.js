@@ -38,6 +38,15 @@ export default {
 //        borderBottomColor: Colors.greyBorder,
         borderBottomWidth: 0.5
     },
+    errorBlock: {
+        position: 'absolute',
+        left: 0,
+        bottom: 0
+    },
+    errorText: {
+        fontSize: 9,
+        color: 'red',
+    }
 
 
 
