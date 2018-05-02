@@ -1,14 +1,18 @@
 import React, {Component} from 'react';
-import {View, Text, FlatList, ActivityIndicator, Image, Modal, TouchableOpacity, Platform} from 'react-native';
+import {View, Text, FlatList, ActivityIndicator, Modal, TouchableOpacity, Platform, Dimensions} from 'react-native';
 
 import Header from './../../Components/Header'
 
 import PhotoView from 'react-native-photo-view';
+import ProgressBar from 'react-native-progress/Bar';
+import Image from 'react-native-image-progress';
 
 import {Colors} from './../../Themes'
 import styles from './styles';
 
 import axios from 'axios';
+
+const { width, height } = Dimensions.get('window');
 
 export default class SearchResult extends Component {
     constructor(props) {
@@ -84,10 +88,16 @@ export default class SearchResult extends Component {
                 onPress={() => this.showPhoto(i)}
                 >
                 <Image
-
+                    indicatorProps={{
+                        size: (width * 0.7) / this.state.columnCount,
+                        borderWidth: 0,
+                        color: Colors.teal500,
+                        unfilledColor: 'rgba(200, 200, 200, 0.2)'
+                    }}
                     source={{uri: item.thumbnailUrl}}
-                    style={styles[column]}>
-                </Image>
+                    indicator={ProgressBar}
+                    style={styles[column]}/>
+
             </TouchableOpacity>
 
         )
@@ -102,6 +112,7 @@ export default class SearchResult extends Component {
     };
 
     render() {
+
         let {text} = this.props.navigation.state.params;
         return (
             <View style={styles.mainContainer}>

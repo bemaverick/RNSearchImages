@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, Button, ActivityIndicator, Slider, TextInput} from 'react-native';
+import {View, Text, Button, Keyboard, Slider, TextInput} from 'react-native';
 import Header from './../../Components/Header'
 
 
@@ -32,6 +32,7 @@ export default class SearchScreen extends Component {
     };
 
     searchImages = () => {
+        Keyboard.dismiss();
         if (this.state.text.length > 2) {
             this.props.navigation.navigate('ResultScreen', {text: this.state.text, column: this.state.sliderVal})
         } else {
