@@ -66,6 +66,15 @@ export default {
     fullScreen: {
         width,
         height
+    },
+    textCenter: {
+        textAlign: 'center',
+        lineHeight: 50
+    },
+    hollowBlock: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
     }
 
 };

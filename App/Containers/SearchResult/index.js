@@ -26,7 +26,7 @@ export default class SearchResult extends Component {
     }
 
     componentDidMount() {
-        let navParams = this.props.navigation.state.params;
+        //let navParams = this.props.navigation.state.params;
 
         this.load();
     }
@@ -60,12 +60,10 @@ export default class SearchResult extends Component {
                     style={styles.flatList}
                     data={this.state.imagesArr}
                     numColumns={this.state.columnCount}
-                    ListEmptyComponent={() => <Text>нет изображений</Text>}
-                    //                onEndReached={(e) => this.loadMoreDiscounts(e)}
-                    //                onEndReachedThreshold={0.3}
-                    //                onRefresh={() => this.refreshDiscounts()}
-                    //                refreshing={this.state.discountRefreshing}
-                    //  ListFooterComponent={this.renderScrollActivityIndicator(this.state.discountScrollLoading)}
+                    ListEmptyComponent={() =>
+                        <View style={styles.hollowBlock}>
+                            <Text style={styles.textCenter}>нет изображений</Text>
+                        </View>}
                     renderItem={({item, index}) => this.renderItem(item, index)}
 
                 />
@@ -77,7 +75,7 @@ export default class SearchResult extends Component {
     }
 
     renderItem(item, i) {
-        console.log(item)
+
 
         let column = `column${this.state.columnCount}`
         return (
@@ -86,6 +84,7 @@ export default class SearchResult extends Component {
                 onPress={() => this.showPhoto(i)}
                 >
                 <Image
+
                     source={{uri: item.thumbnailUrl}}
                     style={styles[column]}>
                 </Image>
@@ -103,19 +102,20 @@ export default class SearchResult extends Component {
     };
 
     render() {
+        let {text} = this.props.navigation.state.params;
         return (
             <View style={styles.mainContainer}>
                 <Header
                     backBtn={true}
                     navigation={this.props.navigation}
-                    title="Найдено"
+                    title={text}
                 />
                 <View style={styles.container}>
                     {this.renderImages()}
                 </View>
 
                 {
-                    this.state.finishLoading ?
+                    this.state.finishLoading && this.state.imagesArr.length ?
                         <Modal
                             transparent={true}
                             hardwareAccelerated={true}
