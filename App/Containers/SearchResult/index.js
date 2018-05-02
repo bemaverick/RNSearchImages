@@ -6,6 +6,7 @@ import Header from './../../Components/Header'
 import PhotoView from 'react-native-photo-view';
 import ProgressBar from 'react-native-progress/Bar';
 import Image from 'react-native-image-progress';
+import Carousel, { Pagination } from 'react-native-snap-carousel';
 
 import {Colors} from './../../Themes'
 import styles from './styles';
@@ -111,6 +112,21 @@ export default class SearchResult extends Component {
         this.setState({modalVisible: val})
     };
 
+    renderCarouselItem = ({item, index}) =>  {
+        return (
+            <PhotoView
+                onViewTap={() => this.displayModal(false)}
+                source={{uri: item.thumbnailUrl}}
+                minimumZoomScale={1}
+                maximumZoomScale={4}
+                androidScaleType="fitCenter"
+                resizeMode={Platform.OS === "android" ? "" : "contain"}
+                onLoadEnd={() => null}
+                style={styles.fullScreen}
+                />
+        );
+    };
+
     render() {
 
         let {text} = this.props.navigation.state.params;
@@ -134,16 +150,15 @@ export default class SearchResult extends Component {
                             onRequestClose={() => this.displayModal(false)}
                             visible={this.state.modalVisible}>
                             <View style={styles.modalContainer}>
-                                <PhotoView
-                                    onViewTap={() => this.displayModal(false)}
-                                    source={{uri: this.state.imagesArr[this.state.activeItemIndex].thumbnailUrl}}
-                                    minimumZoomScale={1}
-                                    maximumZoomScale={4}
-                                    androidScaleType="fitCenter"
-                                    resizeMode={Platform.OS === "android" ? "" : "contain"}
-                                    onLoadEnd={() => null}
-                                    style={styles.fullScreen}
+                                <Carousel
+                                    firstItem={this.state.activeItemIndex ? this.state.activeItemIndex : 0}
+                                    ref={(c) => { this._carousel = c; }}
+                                    data={this.state.imagesArr}
+                                    renderItem={this.renderCarouselItem}
+                                    sliderWidth={width}
+                                    itemWidth={width}
                                 />
+
                             </View>
                         </Modal>
                         :

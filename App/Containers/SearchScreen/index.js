@@ -32,8 +32,9 @@ export default class SearchScreen extends Component {
     };
 
     searchImages = () => {
-        Keyboard.dismiss();
+
         if (this.state.text.length > 2) {
+            Keyboard.dismiss();
             this.props.navigation.navigate('ResultScreen', {text: this.state.text, column: this.state.sliderVal})
         } else {
             this.setState({inputValid: false});
