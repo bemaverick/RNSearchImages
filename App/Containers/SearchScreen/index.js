@@ -18,15 +18,9 @@ export default class SearchScreen extends Component {
 
     }
 
-    componentDidMount() {
+    componentDidMount() {}
 
-    }
-
-
-
-    componentWillMount() {
-
-    }
+    componentWillMount() {}
 
     inputHandler = (text) => {
         text.length < 3 ? this.setState({inputValid: false}) : this.setState({inputValid: true});
