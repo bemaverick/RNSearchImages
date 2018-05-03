@@ -6,14 +6,14 @@ import Header from './../../Components/Header'
 import PhotoView from 'react-native-photo-view';
 import ProgressBar from 'react-native-progress/Bar';
 import Image from 'react-native-image-progress';
-import Carousel, { Pagination } from 'react-native-snap-carousel';
+import Carousel from 'react-native-snap-carousel';
 
 import {Colors} from './../../Themes'
 import styles from './styles';
 
 import axios from 'axios';
 
-const { width, height } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
 export default class SearchResult extends Component {
     constructor(props) {
@@ -31,8 +31,6 @@ export default class SearchResult extends Component {
     }
 
     componentDidMount() {
-        //let navParams = this.props.navigation.state.params;
-
         this.load();
     }
 

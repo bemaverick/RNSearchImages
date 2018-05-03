@@ -1,13 +1,12 @@
-import {Platform, Dimensions} from 'react-native';
+import {Dimensions, StyleSheet} from 'react-native';
 const { width, height } = Dimensions.get('window');
-export default {
+const styles = StyleSheet.create({
     mainContainer: {
         backgroundColor: 'white',
         justifyContent: 'center',
         flex: 1,
     },
     container: {
-//        padding: 20,
         flex: 1,
     },
     p20: {
@@ -77,4 +76,7 @@ export default {
         alignItems: 'center'
     }
 
-};
+});
+export default styles
+
+

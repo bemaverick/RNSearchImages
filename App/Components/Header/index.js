@@ -1,20 +1,13 @@
 import React, { Component } from 'react'
-import { View, Text, StatusBar, TouchableOpacity } from 'react-native'
+import { View, Text, StatusBar, TouchableOpacity, StyleSheet } from 'react-native'
 
 
 
-import { ApplicationStyles, HitSlope, Colors } from './../../Themes'
+import { HitSlope, Colors } from './../../Themes'
 
 
 
 export default class Header extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-        }
-
-        
-    }
 
     
     render () {
@@ -45,22 +38,13 @@ export default class Header extends Component {
     }
 }
 
-const styles = {
+const styles = StyleSheet.create({
     container: {
         backgroundColor: Colors.teal50,
         width: '100%',
         justifyContent: 'center',
         height: 70,
         paddingTop: 15,
-
-//        shadowColor: 'green',
-//        shadowOffset: {
-//            width: 0,
-//            height: 1
-//        },
-//        shadowRadius: 3,
-//        shadowOpacity: 0.3,
-//        elevation: 2
     },
     title: {
         fontSize: 16,
@@ -82,4 +66,4 @@ const styles = {
         fontSize: 35,
         textAlign: 'center'
     }
-}
+});

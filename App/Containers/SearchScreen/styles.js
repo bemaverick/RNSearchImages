@@ -1,7 +1,7 @@
 
-import {Platform} from 'react-native'
+import {StyleSheet} from 'react-native'
 
-export default {
+export default StyleSheet.create({
     mainContainer: {
       backgroundColor: 'white',
       flex: 1
@@ -50,4 +50,4 @@ export default {
 
 
 
-}
+})
